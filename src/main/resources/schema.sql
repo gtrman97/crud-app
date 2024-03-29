@@ -8,3 +8,14 @@ CREATE TABLE person (
     state varchar(2) NOT NULL,
     zip_code varchar(5) NOT NULL
 );
+
+CREATE TABLE client (
+    client_id integer IDENTITY,
+    company_name varchar(100) NOT NULL,
+    website_uri varchar(100),
+    phone_number varchar(20),
+    address varchar(100)
+);
+
+ALTER TABLE person ADD COLUMN client_id integer;
+ALTER TABLE person ADD FOREIGN KEY (client_id) REFERENCES client(client_id);
