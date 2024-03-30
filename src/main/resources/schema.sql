@@ -18,3 +18,5 @@ CREATE TABLE person (
     client_id integer,  -- to establish a relationship with the Client table
     FOREIGN KEY (client_id) REFERENCES client(client_id)  -- to define the foreign key constraint
 );
+
+INSERT INTO client (company_name, website_uri, phone_number, address) VALUES ('Sample Company', 'http://www.samplecompany.com', '123-456-7890', '123 Sample St, Sample City, SC');

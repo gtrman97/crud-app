@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -38,5 +39,24 @@ public class ClientController {
         return "redirect:/clients";
     }
 
-    // Additional methods for updating and deleting clients can be added here
+    @GetMapping("/edit/{clientId}")
+    public String showEditClientForm(@PathVariable Integer clientId, Model model) {
+        Client client = clientService.getClient(clientId);
+        model.addAttribute("client", client);
+        return "clients/edit";
+}
+
+    @PostMapping("/edit")
+    public String updateClient(Client client) {
+        clientService.updateClient(client);
+        return "redirect:/clients";
+    }
+
+    @GetMapping("/delete/{clientId}")
+    public String deleteClient(@PathVariable Integer clientId) {
+        clientService.deleteClient(clientId);
+        return "redirect:/clients";
+}
+
+
 }
