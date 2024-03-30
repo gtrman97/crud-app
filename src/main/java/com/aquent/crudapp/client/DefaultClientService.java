@@ -1,8 +1,5 @@
 package com.aquent.crudapp.client;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,42 +7,49 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
-@Service
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+@Component
 public class DefaultClientService implements ClientService {
 
     private final ClientDao clientDao;
     private final Validator validator;
 
-
-    @Autowired
     public DefaultClientService(ClientDao clientDao, Validator validator) {
         this.clientDao = clientDao;
         this.validator = validator;
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<Client> listClients() {
         return clientDao.listClients();
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
     public Client createClient(Client client) {
         Integer clientId = clientDao.createClient(client);
         return clientDao.readClient(clientId);
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Client getClient(Integer clientId) {
         return clientDao.readClient(clientId);
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
     public Client updateClient(Client client) {
         clientDao.updateClient(client);
         return clientDao.readClient(client.getClientId());
     }
 
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
     public void deleteClient(Integer clientId) {
         clientDao.deleteClient(clientId);
     }

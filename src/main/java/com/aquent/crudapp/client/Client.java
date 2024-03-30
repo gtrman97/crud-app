@@ -2,6 +2,7 @@ package com.aquent.crudapp.client;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 public class Client {
 
@@ -19,6 +20,9 @@ public class Client {
 
     @Size(max = 100, message = "Address should have maximum length of 100")
     private String address;
+
+    @Size(max = 10, message = "Contacts list should not exceed 10 elements")
+    private List<String> contacts;
 
     // Getters and setters
 
@@ -60,5 +64,13 @@ public class Client {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<String> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<String> contacts) {
+        this.contacts = contacts;
     }
 }
