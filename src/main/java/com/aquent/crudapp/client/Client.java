@@ -1,4 +1,4 @@
-package com.aquent.crudapp.person;
+package com.aquent.crudapp.client;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;

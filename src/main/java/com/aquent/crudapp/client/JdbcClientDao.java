@@ -1,4 +1,4 @@
-package com.aquent.crudapp.person;
+package com.aquent.crudapp.client;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
