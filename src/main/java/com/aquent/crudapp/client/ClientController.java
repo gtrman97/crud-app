@@ -1,7 +1,5 @@
 package com.aquent.crudapp.client;
 
-import com.aquent.crudapp.client.Client;
-import com.aquent.crudapp.client.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
