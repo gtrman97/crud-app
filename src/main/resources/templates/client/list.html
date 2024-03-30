@@ -1,0 +1,43 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Client Listing</title>
+  </head>
+  <body>
+    <h1>Client Listing</h1>
+    <p><a href="/clients/new">Create New Client</a></p>
+    <th:block th:unless="${#lists.isEmpty(clients)}">
+      <table>
+        <thead>
+          <tr>
+            <th>Company Name</th>
+            <th>Website URI</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <th:block th:each="client : ${clients}">
+            <tr>
+              <td th:text="${client.companyName}">Company Name</td>
+              <td th:text="${client.websiteUri}">www.company.com</td>
+              <td th:text="${client.phoneNumber}">(123) 456-7890</td>
+              <td th:text="${client.address}">123 Main St, Anytown, USA</td>
+              <td>
+                <a th:href="'/clients/edit/' + ${client.clientId}">Edit Client</a>
+                <a th:href="'/clients/delete/' + ${client.clientId}">Delete Client</a>
+              </td>
+            </tr>
+          </th:block>
+        </tbody>
+      </table>
+    </th:block>
+    <th:block th:if="${#lists.isEmpty(clients)}">
+      <p>No results found.</p>
+    </th:block>
+  </body>
+</html>
