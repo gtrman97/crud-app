@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class JdbcPersonDao implements PersonDao {
 
     private static final String SQL_LIST_PEOPLE = "SELECT * FROM person ORDER BY first_name, last_name, person_id";
-    private static final String SQL_READ_PERSON = "SELECT * FROM person WHERE person_id = :personId";
+    private static final String SQL_READ_PERSON = "SELECT * FROM person WHERE person_id = :person_id";
     private static final String SQL_DELETE_PERSON = "DELETE FROM person WHERE person_id = :personId";
     private static final String SQL_UPDATE_PERSON = "UPDATE person SET (first_name, last_name, email_address, street_address, city, state, zip_code, client_id)"
                                                   + " = (:firstName, :lastName, :emailAddress, :streetAddress, :city, :state, :zipCode)"
@@ -48,7 +48,7 @@ public class JdbcPersonDao implements PersonDao {
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Person readPerson(Integer personId) {
-        return namedParameterJdbcTemplate.queryForObject(SQL_READ_PERSON, Collections.singletonMap("personId", personId), new PersonRowMapper());
+        return namedParameterJdbcTemplate.queryForObject(SQL_READ_PERSON, Collections.singletonMap("person_id", personId), new PersonRowMapper());
     }
 
     @Override
@@ -80,8 +80,8 @@ public class JdbcPersonDao implements PersonDao {
 
     @Override
     public List<Person> listPeopleWithClients() {
-        String sql = "SELECT p.*, c.* FROM person p LEFT JOIN client c ON p.client_id = c.client_id";
-        return jdbcTemplate.query(sql, new PersonWithClientRowMapper());
+        String sql = "SELECT p.*, c.company_name FROM person p LEFT JOIN client c ON p.client_id = c.client_id";
+        return namedParameterJdbcTemplate.query(sql, new PersonWithClientRowMapper());
     }
 
     private static class PersonWithClientRowMapper implements RowMapper<Person> {
@@ -89,14 +89,19 @@ public class JdbcPersonDao implements PersonDao {
         public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
             Person person = new Person();
             // Set person fields from the result set
-
+            person.setPersonId(rs.getInt("person_id"));
+            person.setFirstName(rs.getString("first_name"));
+            person.setLastName(rs.getString("last_name"));
+            person.setEmailAddress(rs.getString("email_address"));
+    
             Client client = new Client();
-            // Set client fields from the result set
+            client.setCompanyName(rs.getString("company_name")); // Set the company name from the result set
             person.setClient(client); // Set the associated Client object
-
+    
             return person;
         }
     }
+    
 
     /**
      * Row mapper for person records.

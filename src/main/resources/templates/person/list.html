@@ -18,6 +18,7 @@
             <th>Email Address</th>
             <th>Associated Client</th> 
             <th>Actions</th>
+            <th>Person Id</th>
           </tr>
         </thead>
         <tbody>
@@ -28,9 +29,14 @@
               <td th:text="${person.emailAddress}">first.last@email.com</td>
               <td th:text="${person.client?.companyName}">N/A</td>
               <td>
-                <a th:href="'/person/edit/' + ${person.personId}">Edit Person</a>
-                <a th:href="'/person/delete/' + ${person.personId}">Delete Person</a>
+                <a th:href="@{/person/edit/{personId}(personId=${person.personId})}">Edit Person</a>
+                <form th:action="@{/person/delete}" method="post">
+                  <input type="hidden" name="personId" th:value="${person.personId}" />
+                  <input type="hidden" name="command" value="Delete" />
+                  <input type="submit" value="Delete Person" />
+              </form>                          
               </td>
+              <td th:text="${person.personId}">Debug Person ID</td>
             </tr>
           </th:block>
         </tbody>
