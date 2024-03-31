@@ -16,6 +16,7 @@ public interface PersonDao {
      * @return list of person records
      */
     List<Person> listPeople();
+    List<Person> listPeopleWithClients();
 
     /**
      * Creates a new person record.
@@ -48,5 +49,5 @@ public interface PersonDao {
     void deletePerson(Integer id);
 
     List<Person> findContactsByClientId(Integer clientId);
-    
+
 }

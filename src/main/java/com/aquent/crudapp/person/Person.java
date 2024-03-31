@@ -1,5 +1,6 @@
 package com.aquent.crudapp.person;
 
+import com.aquent.crudapp.client.Client;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.Size;
 public class Person {
 
     private Integer personId;
+    private Client client; 
 
     @NotNull
     @Size(min = 1, max = 50, message = "First name is required with maximum length of 50")
@@ -39,6 +41,8 @@ public class Person {
     private String zipCode;
 
     private Integer clientId;
+
+    private String clientCompanyName;
 
     public Integer getPersonId() {
         return personId;
@@ -111,4 +115,21 @@ public class Person {
     public void setClientId(Integer clientId) {
         this.clientId = clientId;
     }
+
+    public String getClientCompanyName() {
+        return clientCompanyName;
+    }
+
+    public void setClientCompanyName(String clientCompanyName) {
+        this.clientCompanyName = clientCompanyName;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+    
 }

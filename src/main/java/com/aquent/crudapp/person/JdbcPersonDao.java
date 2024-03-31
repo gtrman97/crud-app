@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
+import com.aquent.crudapp.client.Client;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -31,9 +32,11 @@ public class JdbcPersonDao implements PersonDao {
                                                   + " VALUES (:firstName, :lastName, :emailAddress, :streetAddress, :city, :state, :zipCode, :clientId)";
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public JdbcPersonDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public JdbcPersonDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate, NamedParameterJdbcTemplate jdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
@@ -73,6 +76,26 @@ public class JdbcPersonDao implements PersonDao {
         String sql = "SELECT * FROM person WHERE client_id = :clientId";
         MapSqlParameterSource params = new MapSqlParameterSource("clientId", clientId);
         return namedParameterJdbcTemplate.query(sql, params, new PersonRowMapper());
+    }
+
+    @Override
+    public List<Person> listPeopleWithClients() {
+        String sql = "SELECT p.*, c.* FROM person p LEFT JOIN client c ON p.client_id = c.client_id";
+        return jdbcTemplate.query(sql, new PersonWithClientRowMapper());
+    }
+
+    private static class PersonWithClientRowMapper implements RowMapper<Person> {
+        @Override
+        public Person mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Person person = new Person();
+            // Set person fields from the result set
+
+            Client client = new Client();
+            // Set client fields from the result set
+            person.setClient(client); // Set the associated Client object
+
+            return person;
+        }
     }
 
     /**

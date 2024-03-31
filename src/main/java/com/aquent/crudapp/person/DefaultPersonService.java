@@ -72,4 +72,10 @@ public class DefaultPersonService implements PersonService {
         // This might involve calling a method on the PersonDao or repository
         return personDao.findContactsByClientId(clientId);
     }
+
+    @Override
+    public List<Person> listPeopleWithClients() {
+        return personDao.listPeopleWithClients();
+    }
+    
 }
