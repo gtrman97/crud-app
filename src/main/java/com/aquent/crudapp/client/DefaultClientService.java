@@ -30,8 +30,8 @@ public class DefaultClientService implements ClientService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
-    public Client createClient(Client client) {
-        Integer clientId = clientDao.createClient(client);
+    public Client createClient(Client client, List<Integer> contactIds) {
+        Integer clientId = clientDao.createClient(client, contactIds);
         return clientDao.readClient(clientId);
     }
 

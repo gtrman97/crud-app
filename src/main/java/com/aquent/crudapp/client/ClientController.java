@@ -15,6 +15,7 @@ import com.aquent.crudapp.person.PersonService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/clients")
@@ -31,11 +32,11 @@ public class ClientController {
     }
 
     @GetMapping
-public String listClients(Model model) {
+    public String listClients(Model model) {
     List<Client> clients = clientService.listClients();
     for (Client client : clients) {
-        List<Person> contacts = personService.getContactsByClientId(client.getClientId());
-        client.setContacts(contacts);
+        List<Integer> contactIds = personService.getContactsByClientId(client.getClientId());
+        client.setContacts(contactIds);
     }
     model.addAttribute("clients", clients);
     return "clients/list";
@@ -46,22 +47,26 @@ public String listClients(Model model) {
         ModelAndView mav = new ModelAndView("clients/create");
         mav.addObject("client", new Client());
         mav.addObject("errors", new ArrayList<String>());
+        mav.addObject("contacts", personService.listPeople()); 
         return mav;
     }
 
     @PostMapping
-    public ModelAndView create(Client client) {
-        List<String> errors = clientService.validateClient(client);
-        if (errors.isEmpty()) {
-            clientService.createClient(client);
-            return new ModelAndView("redirect:/clients");
-        } else {
-            ModelAndView mav = new ModelAndView("clients/create");
-            mav.addObject("client", client);
-            mav.addObject("errors", errors);
-            return mav;
-        }
+    public ModelAndView create(Client client, @RequestParam List<Integer> contactIds) {
+        // client.setContacts(contacts);
+
+    // Validate and create the client
+    List<String> errors = clientService.validateClient(client);
+    if (errors.isEmpty()) {
+        clientService.createClient(client, contactIds);
+        return new ModelAndView("redirect:/clients");
+    } else {
+        ModelAndView mav = new ModelAndView("clients/create");
+        mav.addObject("client", client);
+        mav.addObject("errors", errors);
+        return mav;
     }
+}
 
     @GetMapping("/edit/{clientId}")
     public ModelAndView edit(@PathVariable Integer clientId) {
@@ -103,10 +108,10 @@ public String listClients(Model model) {
 @GetMapping("/{clientId}")
 public String viewClient(@PathVariable Integer clientId, Model model) {
     Client client = clientService.getClient(clientId);
-    List<Person> contacts = personService.getContactsByClientId(clientId); // Assuming you have a method to get contacts by client ID
+    List<Integer> contacts = personService.getContactsByClientId(clientId); 
     client.setContacts(contacts);
     model.addAttribute("client", client);
-    return "clients/view"; // Assuming you have a view template for displaying a single client
+    return "clients/view"; 
 }
 
 }

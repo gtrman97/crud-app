@@ -36,10 +36,6 @@ public class PersonController {
     public ModelAndView list() {
     ModelAndView mav = new ModelAndView("person/list");
     List<Person> persons = personService.listPeopleWithClients();
-    persons.forEach(person -> System.out.println("Person ID: " + person.getFirstName()));
-    for (Person person : persons) {
-        logger.info("Person ID: {}", person.getPersonId());
-    }
     mav.addObject("persons", persons);
     return mav;
 }

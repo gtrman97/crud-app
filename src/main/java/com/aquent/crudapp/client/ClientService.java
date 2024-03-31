@@ -9,7 +9,7 @@ public interface ClientService {
 
     List<Client> listClients();
 
-    Client createClient(Client client);
+    Client createClient(Client client, List<Integer> contactIds);
 
     Client getClient(Integer clientId);
 

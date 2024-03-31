@@ -67,10 +67,10 @@ public class DefaultPersonService implements PersonService {
     }
 
     @Override
-    public List<Person> getContactsByClientId(Integer clientId) {
+    public List<Integer> getContactsByClientId(Integer clientId) {
         // Implement the logic to retrieve contacts by client ID
         // This might involve calling a method on the PersonDao or repository
-        return personDao.findContactsByClientId(clientId);
+        return personDao.findContactIdsByClientId(clientId);
     }
 
     @Override

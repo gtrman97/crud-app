@@ -3,7 +3,9 @@ package com.aquent.crudapp.person;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.aquent.crudapp.client.Client;
 import org.springframework.jdbc.core.RowMapper;
@@ -23,11 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class JdbcPersonDao implements PersonDao {
 
     private static final String SQL_LIST_PEOPLE = "SELECT * FROM person ORDER BY first_name, last_name, person_id";
-    private static final String SQL_READ_PERSON = "SELECT * FROM person WHERE person_id = :person_id";
+    private static final String SQL_READ_PERSON = "SELECT * FROM person WHERE person_id = :personId";
     private static final String SQL_DELETE_PERSON = "DELETE FROM person WHERE person_id = :personId";
-    private static final String SQL_UPDATE_PERSON = "UPDATE person SET (first_name, last_name, email_address, street_address, city, state, zip_code, client_id)"
-                                                  + " = (:firstName, :lastName, :emailAddress, :streetAddress, :city, :state, :zipCode)"
-                                                  + " WHERE person_id = :personId";
+    private static final String SQL_UPDATE_PERSON = "UPDATE person SET first_name = :firstName, last_name = :lastName, email_address = :emailAddress, street_address = :streetAddress, city = :city, state = :state, zip_code = :zipCode, client_id = :clientId WHERE person_id = :personId";
+
     private static final String SQL_CREATE_PERSON = "INSERT INTO person (first_name, last_name, email_address, street_address, city, state, zip_code)"
                                                   + " VALUES (:firstName, :lastName, :emailAddress, :streetAddress, :city, :state, :zipCode, :clientId)";
 
@@ -48,8 +49,11 @@ public class JdbcPersonDao implements PersonDao {
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Person readPerson(Integer personId) {
-        return namedParameterJdbcTemplate.queryForObject(SQL_READ_PERSON, Collections.singletonMap("person_id", personId), new PersonRowMapper());
-    }
+    String sql = "SELECT * FROM person WHERE person_id = :personId";
+    Map<String, Object> params = new HashMap<>();
+    params.put("personId", personId);
+    return namedParameterJdbcTemplate.queryForObject(sql, params, new PersonRowMapper());
+}
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
@@ -72,11 +76,13 @@ public class JdbcPersonDao implements PersonDao {
     }
 
     @Override
-    public List<Person> findContactsByClientId(Integer clientId) {
-        String sql = "SELECT * FROM person WHERE client_id = :clientId";
-        MapSqlParameterSource params = new MapSqlParameterSource("clientId", clientId);
-        return namedParameterJdbcTemplate.query(sql, params, new PersonRowMapper());
-    }
+    public List<Integer> findContactIdsByClientId(Integer clientId) {
+    String sql = "SELECT person_id FROM person WHERE client_id = :clientId";
+    Map<String, Object> params = new HashMap<>();
+    params.put("clientId", clientId);
+    return namedParameterJdbcTemplate.queryForList(sql, params, Integer.class);
+}
+
 
     @Override
     public List<Person> listPeopleWithClients() {

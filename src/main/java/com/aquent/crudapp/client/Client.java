@@ -23,7 +23,7 @@ public class Client {
     private String address;
 
     @Size(max = 10, message = "Contacts list should not exceed 10 elements")
-    private List<Person> contacts;
+    private List<Integer> contacts;
 
     // Getters and setters
 
@@ -67,11 +67,11 @@ public class Client {
         this.address = address;
     }
 
-    public List<Person> getContacts() {
+    public List<Integer> getContacts() {
         return contacts;
     }
 
-    public void setContacts(List<Person> contacts) {
+    public void setContacts(List<Integer> contacts) {
         this.contacts = contacts;
     }
 }
