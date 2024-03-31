@@ -54,4 +54,7 @@ public interface PersonService {
      * @return list of error messages
      */
     List<String> validatePerson(Person person);
+
+    List<Person> getContactsByClientId(Integer clientId);
+    
 }

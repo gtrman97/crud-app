@@ -65,4 +65,11 @@ public class DefaultPersonService implements PersonService {
         Collections.sort(errors);
         return errors;
     }
+
+    @Override
+    public List<Person> getContactsByClientId(Integer clientId) {
+        // Implement the logic to retrieve contacts by client ID
+        // This might involve calling a method on the PersonDao or repository
+        return personDao.findContactsByClientId(clientId);
+    }
 }

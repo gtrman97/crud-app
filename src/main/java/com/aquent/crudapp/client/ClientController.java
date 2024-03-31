@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.aquent.crudapp.person.Person;
+import com.aquent.crudapp.person.PersonService;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,12 +21,13 @@ import java.util.List;
 public class ClientController {
 
     public static final String COMMAND_DELETE = "Delete";
-
     private final ClientService clientService;
+    private final PersonService personService;
 
     @Autowired
-    public ClientController(ClientService clientService) {
+    public ClientController(ClientService clientService, PersonService personService) {
         this.clientService = clientService;
+        this.personService = personService;
     }
 
     @GetMapping
@@ -90,4 +94,14 @@ public class ClientController {
         }
         return "redirect:/clients";
 }
+
+@GetMapping("/{clientId}")
+public String viewClient(@PathVariable Integer clientId, Model model) {
+    Client client = clientService.getClient(clientId);
+    List<Person> contacts = personService.getContactsByClientId(clientId); // Assuming you have a method to get contacts by client ID
+    client.setContacts(contacts);
+    model.addAttribute("client", client);
+    return "clients/view"; // Assuming you have a view template for displaying a single client
+}
+
 }
