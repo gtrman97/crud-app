@@ -41,6 +41,12 @@
       <input type="text" name="zipCode" th:value="${person.zipCode}"/>
       <br/>
       <input type="submit" name="Submit" value="Submit"/>
+      <!-- Add a dropdown list for selecting the associated client -->
+      <label for="clientId">Associated Client:</label>
+      <select name="clientId" id="clientId">
+          <option value="">--Select a Client--</option>
+          <option th:each="client : ${clients}" th:value="${client.clientId}" th:text="${client.companyName}" th:selected="${client.clientId == person.clientId}"></option>
+      </select>
     </form>
   </body>
 </html>

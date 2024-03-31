@@ -20,3 +20,8 @@ CREATE TABLE person (
 );
 
 INSERT INTO client (company_name, website_uri, phone_number, address) VALUES ('Sample Company', 'http://www.samplecompany.com', '123-456-7890', '123 Sample St, Sample City, SC');
+
+INSERT INTO person (first_name, last_name, email_address, street_address, city, state, zip_code, client_id)
+VALUES ('John', 'Doe', 'john.doe@example.com', '123 Main St', 'Anytown', 'NY', '12345', 1),
+       ('Jane', 'Doe', 'jane.doe@example.com', '456 Elm St', 'Anytown', 'NY', '12345', 1),
+       ('Alice', 'Smith', 'alice.smith@example.com', '789 Oak St', 'Anytown', 'NY', '12345', 1);

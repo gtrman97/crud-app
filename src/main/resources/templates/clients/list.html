@@ -17,7 +17,7 @@
             <th>Website URI</th>
             <th>Phone Number</th>
             <th>Address</th>
-            <th>Associated Contacts</th>
+            <th>Contacts</th> <!-- Add a column header for Contacts -->
             <th>Actions</th>
           </tr>
         </thead>
@@ -30,10 +30,10 @@
               <td th:text="${client.address}">123 Main St, Anytown, USA</td>
               <td>
                 <select>
-                    <option th:each="contact : ${client.contacts}" th:text="${contact}" th:value="${contact}"></option>
+                    <option th:each="contact : ${client.contacts}" th:text="${contact.firstName} + ' ' + ${contact.lastName}" th:value="${contact.personId}"></option>
                 </select>
-            </td>
-                          <td>
+              </td>
+              <td>
                 <a th:href="'/clients/edit/' + ${client.clientId}">Edit Client</a>
                 <a th:href="'/clients/delete/' + ${client.clientId}">Delete Client</a>
               </td>

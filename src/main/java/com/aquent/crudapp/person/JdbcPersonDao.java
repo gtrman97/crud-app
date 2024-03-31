@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -65,6 +66,13 @@ public class JdbcPersonDao implements PersonDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(SQL_CREATE_PERSON, new BeanPropertySqlParameterSource(person), keyHolder);
         return keyHolder.getKey().intValue();
+    }
+
+    @Override
+    public List<Person> findContactsByClientId(Integer clientId) {
+        String sql = "SELECT * FROM person WHERE client_id = :clientId";
+        MapSqlParameterSource params = new MapSqlParameterSource("clientId", clientId);
+        return namedParameterJdbcTemplate.query(sql, params, new PersonRowMapper());
     }
 
     /**

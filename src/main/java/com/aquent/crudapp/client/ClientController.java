@@ -31,10 +31,15 @@ public class ClientController {
     }
 
     @GetMapping
-    public String listClients(Model model) {
-        model.addAttribute("clients", clientService.listClients());
-        return "clients/list";
+public String listClients(Model model) {
+    List<Client> clients = clientService.listClients();
+    for (Client client : clients) {
+        List<Person> contacts = personService.getContactsByClientId(client.getClientId());
+        client.setContacts(contacts);
     }
+    model.addAttribute("clients", clients);
+    return "clients/list";
+}
 
     @GetMapping("/new")
     public ModelAndView create() {

@@ -3,6 +3,8 @@ package com.aquent.crudapp.person;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.aquent.crudapp.client.Client;
+import com.aquent.crudapp.client.ClientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,9 +23,11 @@ public class PersonController {
     public static final String COMMAND_DELETE = "Delete";
 
     private final PersonService personService;
+    private final ClientService clientService; 
 
-    public PersonController(PersonService personService) {
+    public PersonController(PersonService personService, ClientService clientService) {
         this.personService = personService;
+        this.clientService = clientService; 
     }
 
     /**
@@ -79,13 +83,16 @@ public class PersonController {
      * @param personId the ID of the person to edit
      * @return edit view populated from the person record
      */
-    @GetMapping(value = "edit/{personId}")
+    @GetMapping("/edit/{personId}")
     public ModelAndView edit(@PathVariable Integer personId) {
         ModelAndView mav = new ModelAndView("person/edit");
-        mav.addObject("person", personService.readPerson(personId));
+        Person person = personService.readPerson(personId);
+        List<Client> clients = clientService.listClients(); // Retrieve the list of all clients
+        mav.addObject("person", person);
+        mav.addObject("clients", clients); // Add the list of clients to the model
         mav.addObject("errors", new ArrayList<String>());
         return mav;
-    }
+}
 
     /**
      * Validates and saves an edited person.
