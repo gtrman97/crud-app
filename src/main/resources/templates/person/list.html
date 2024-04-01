@@ -75,27 +75,9 @@
                 N/A
               </td>
               <td class="centered light-blue-border">
-                <a
-                  th:href="@{/person/edit/{personId}(personId=${person.personId})}"
-                  class="btn btn-primary mr-2"
-                  >Edit Person</a
-                >
-                <form
-                  th:action="@{/person/delete}"
-                  method="post"
-                  class="d-inline"
-                >
-                  <input
-                    type="hidden"
-                    name="personId"
-                    th:value="${person.personId}"
-                  />
-                  <input type="hidden" name="command" value="Delete" />
-                  <button type="submit" class="btn btn-danger">
-                    Delete Person
-                  </button>
-                </form>
-              </td>
+                <a th:href="@{/person/edit/{personId}(personId=${person.personId})}" class="btn btn-primary mr-2">Edit Person</a>
+                <a th:href="@{/person/delete/{personId}(personId=${person.personId})}" class="btn btn-danger">Delete Person</a>
+            </td>
               <td
                 class="centered light-blue-border"
                 th:text="${person.personId}"

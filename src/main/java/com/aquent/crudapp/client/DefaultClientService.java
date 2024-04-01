@@ -25,6 +25,7 @@ public class DefaultClientService implements ClientService {
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<Client> listClients() {
+        System.out.println("List is now: " + clientDao.listClients());
         return clientDao.listClients();
     }
 
@@ -32,6 +33,7 @@ public class DefaultClientService implements ClientService {
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
     public Client createClient(Client client, List<Integer> contactIds) {
         Integer clientId = clientDao.createClient(client, contactIds);
+        System.out.println("Created client with ID: " + clientId);
         return clientDao.readClient(clientId);
     }
 

@@ -87,6 +87,13 @@ public class PersonController {
         }
     }
 
+    @GetMapping("/delete/{personId}")
+    public ModelAndView showDeleteConfirmation(@PathVariable Integer personId) {
+    ModelAndView mav = new ModelAndView("person/delete");
+    Person person = personService.readPerson(personId);
+    mav.addObject("person", person);
+    return mav;
+}
     @PostMapping("/delete")
     public String delete(@RequestParam String command, @RequestParam Integer personId) {
         if (COMMAND_DELETE.equals(command)) {

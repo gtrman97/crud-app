@@ -55,11 +55,17 @@ public class JdbcPersonDao implements PersonDao {
     return namedParameterJdbcTemplate.queryForObject(sql, params, new PersonRowMapper());
 }
 
-    @Override
-    @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
-    public void deletePerson(Integer personId) {
-        namedParameterJdbcTemplate.update(SQL_DELETE_PERSON, Collections.singletonMap("personId", personId));
-    }
+@Override
+@Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
+public void deletePerson(Integer personId) {
+    // Delete the association from the client_person table
+    String deleteAssociationSql = "DELETE FROM client_person WHERE person_id = :personId";
+    namedParameterJdbcTemplate.update(deleteAssociationSql, Collections.singletonMap("personId", personId));
+
+    // Delete the person from the person table
+    String deletePersonSql = "DELETE FROM person WHERE person_id = :personId";
+    namedParameterJdbcTemplate.update(deletePersonSql, Collections.singletonMap("personId", personId));
+}
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
