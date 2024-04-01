@@ -73,13 +73,17 @@ public class ClientController {
     }
 }
 
-    @GetMapping("/edit/{clientId}")
-    public ModelAndView edit(@PathVariable Integer clientId) {
-        ModelAndView mav = new ModelAndView("clients/edit");
-        mav.addObject("client", clientService.getClient(clientId));
-        mav.addObject("errors", new ArrayList<String>());
-        return mav;
-    }
+@GetMapping("/edit/{clientId}")
+public ModelAndView edit(@PathVariable Integer clientId) {
+    ModelAndView mav = new ModelAndView("clients/edit");
+    Client client = clientService.getClient(clientId);
+    List<Person> associatedContacts = personService.getPersonsByIds(client.getContacts());
+    System.out.println("associatedContacts are: " + associatedContacts);
+    System.out.println("Contact IDs for client " + clientId + ": " + client.getContacts());
+    mav.addObject("client", client);
+    mav.addObject("associatedContacts", associatedContacts); // Make sure this matches what you're using in your Thymeleaf template
+    return mav;
+}
 
     @PostMapping("/edit")
     public ModelAndView edit(Client client) {

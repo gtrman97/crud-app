@@ -102,6 +102,15 @@ public Client getClientWithContacts(Integer clientId) {
         namedParameterJdbcTemplate.update("DELETE FROM client WHERE client_id = :clientId", params);
     }
 
+    @Override
+    public List<Integer> getContactsByClientId(Integer clientId) {
+    String sql = "SELECT person_id FROM client_person WHERE client_id = :clientId";
+    Map<String, Object> params = new HashMap<>();
+    params.put("clientId", clientId);
+    return namedParameterJdbcTemplate.queryForList(sql, params, Integer.class);
+}
+
+
     private static final class ClientRowMapper implements RowMapper<Client> {
         @Override
         public Client mapRow(ResultSet rs, int rowNum) throws SQLException {

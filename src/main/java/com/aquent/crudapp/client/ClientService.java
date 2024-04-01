@@ -18,5 +18,7 @@ public interface ClientService {
     void deleteClient(Integer clientId);
     
     List<String> validateClient(Client client);
+
+    List<Integer> getContactsByClientId(Integer clientId);
     
 }

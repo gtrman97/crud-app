@@ -64,4 +64,10 @@ public class DefaultClientService implements ClientService {
         Collections.sort(errors);
         return errors;
     }
+
+    @Override
+    public List<Integer> getContactsByClientId(Integer clientId) {
+        return clientDao.getContactsByClientId(clientId);
+}
+
 }

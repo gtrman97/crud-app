@@ -13,4 +13,7 @@ public interface ClientDao {
     void updateClient(Client client);
 
     void deleteClient(Integer clientId);
+
+    List<Integer> getContactsByClientId(Integer clientId);
+
 }
