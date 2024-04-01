@@ -1,42 +1,50 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Edit Client</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   </head>
-  <body>
-    <h1>Edit Client</h1>
+  <body class="container">
+    <h1 class="text-center my-4">Edit Client</h1>
     <th:block th:unless="${#lists.isEmpty(errors)}">
-      <p>Please correct the following errors in your submission:</p>
-      <ul>
-        <th:block th:each="error : ${errors}">
-          <li th:text="${error}">Error message</li>
-        </th:block>
-      </ul>
+      <div class="alert alert-danger">
+        <p>Please correct the following errors in your submission:</p>
+        <ul>
+          <th:block th:each="error : ${errors}">
+            <li th:text="${error}">Error message</li>
+          </th:block>
+        </ul>
+      </div>
     </th:block>
-    <form action="/clients/edit" method="POST">
+    <form action="/clients/edit" method="POST" class="needs-validation" novalidate>
       <input type="hidden" name="clientId" th:value="${client.clientId}"/>
-      <br/>
-      <label for="companyName">Company Name:</label>
-      <input type="text" name="companyName" th:value="${client.companyName}"/>
-      <br/>
-      <label for="websiteUri">Website URI:</label>
-      <input type="text" name="websiteUri" th:value="${client.websiteUri}"/>
-      <br/>
-      <label for="phoneNumber">Phone Number:</label>
-      <input type="text" name="phoneNumber" th:value="${client.phoneNumber}"/>
-      <br/>
-      <label for="address">Address:</label>
-      <input type="text" name="address" th:value="${client.address}"/>
-      <br/>
-      <label for="contactIds">Contacts:</label>
-      <select multiple="multiple" name="contactIds" id="contactIds">
-          <option th:each="person : ${allPersons}" th:value="${person.personId}" th:text="${person.firstName} + ' ' + ${person.lastName}" th:selected="${associatedContacts.contains(person)}"></option>
-      </select>
-      <br>
-      <input type="submit" name="Submit" value="Submit"/>
+      <div class="form-group">
+        <label for="companyName">Company Name:</label>
+        <input type="text" class="form-control" name="companyName" th:value="${client.companyName}" required>
+      </div>
+      <div class="form-group">
+        <label for="websiteUri">Website URI:</label>
+        <input type="text" class="form-control" name="websiteUri" th:value="${client.websiteUri}" required>
+      </div>
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" class="form-control" name="phoneNumber" th:value="${client.phoneNumber}" required>
+      </div>
+      <div class="form-group">
+        <label for="address">Address:</label>
+        <input type="text" class="form-control" name="address" th:value="${client.address}" required>
+      </div>
+      <div class="form-group">
+        <label for="contactIds">Contacts:</label>
+        <select multiple class="form-control" name="contactIds" id="contactIds">
+            <option th:each="person : ${allPersons}" th:value="${person.personId}" th:text="${person.firstName} + ' ' + ${person.lastName}" th:selected="${associatedContacts.contains(person)}"></option>
+        </select>
+      </div>
+      <div class="text-center">
+        <input type="submit" class="btn btn-primary" name="Submit" value="Submit"/>
+      </div>
     </form>
   </body>
 </html>

@@ -2,17 +2,20 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Delete Client</title>
-  </head>
-  <body>
-    <h1>Delete Client</h1>
-    <p>You are about to delete the client <th:block th:text="${client.companyName}" />: Are you sure?</p>
-    <form action="/clients/delete" method="post">
-      <input type="hidden" name="clientId" th:value="${client.clientId}"/>
-      <input type="submit" name="command" value="Cancel"/>
-      <input type="submit" name="command" value="Delete"/>
-    </form>
-  </body>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container text-center">
+        <h1>Delete Client</h1>
+        <p>You are about to delete the client <span th:text="${client.companyName}">Company Name</span>: Are you sure?</p>
+        <form action="/clients/delete" method="post">
+            <input type="hidden" name="clientId" th:value="${client.clientId}"/>
+            <button type="submit" name="command" value="Cancel" class="btn btn-secondary">Cancel</button>
+            <button type="submit" name="command" value="Delete" class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+</body>
 </html>
