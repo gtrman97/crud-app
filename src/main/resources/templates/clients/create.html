@@ -52,6 +52,7 @@
                 <select multiple class="form-control" name="contactIds" id="contacts">
                     <option th:each="person : ${persons}" th:value="${person.personId}" th:text="${person.firstName} + ' ' + ${person.lastName}"></option>
                 </select>
+                <input type="hidden" name="contactIds" value="" />
             </div>
             <input type="submit" class="btn btn-success submit-btn" name="Submit" value="Create"/>
         </form>

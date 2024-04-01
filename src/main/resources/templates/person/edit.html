@@ -6,6 +6,56 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Edit Person</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script>
+        // Normally I would add this as a separate script but included it here for brevity
+    function validateForm() {
+    let isValid = true;
+    let firstName = document.forms["editPersonForm"]["firstName"].value;
+    let lastName = document.forms["editPersonForm"]["lastName"].value;
+    let emailAddress = document.forms["editPersonForm"]["emailAddress"].value;
+    let city = document.forms["editPersonForm"]["city"].value;
+    let state = document.forms["editPersonForm"]["state"].value;
+    let streetAddress = document.forms["editPersonForm"]["streetAddress"].value;
+    let zipCode = document.forms["editPersonForm"]["zipCode"].value;
+
+    if (firstName.length === 0 || firstName.length > 50) {
+        alert("First name is required with maximum length of 50");
+        isValid = false;
+    }
+
+    if (lastName.length === 0 || lastName.length > 50) {
+        alert("Last name is required with maximum length of 50");
+        isValid = false;
+    }
+
+    if (emailAddress.length === 0 || emailAddress.length > 50) {
+        alert("Email address is required with maximum length of 50");
+        isValid = false;
+    }
+
+    if (city.length === 0 || city.length > 50) {
+        alert("City is required with maximum length of 50");
+        isValid = false;
+    }
+
+    if (state.length !== 2) {
+        alert("State is required with length 2");
+        isValid = false;
+    }
+
+    if (streetAddress.length === 0 || streetAddress.length > 50) {
+        alert("Street address is required with maximum length of 50");
+        isValid = false;
+    }
+
+    if (zipCode.length !== 5) {
+        alert("Zip code is required with length 5");
+        isValid = false;
+    }
+    console.log('poo poo');
+    return isValid;
+}
+    </script>
   </head>
   <body>
     <div class="container">
@@ -20,7 +70,7 @@
                 </ul>
             </div>
         </th:block>
-        <form action="/person/edit" method="POST" class="mt-3">
+        <form action="/person/edit" method="POST" name="editPersonForm" class="mt-3" onsubmit="return validateForm()">
             <input type="hidden" name="personId" th:value="${person.personId}"/>
             <div class="form-group">
                 <label for="firstName">First Name:</label>
