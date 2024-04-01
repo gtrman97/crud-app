@@ -77,5 +77,14 @@ public class DefaultPersonService implements PersonService {
     public List<Person> listPeopleWithClients() {
         return personDao.listPeopleWithClients();
     }
+
+    @Override
+    public List<Person> getPersonsByIds(List<Integer> personIds) {
+    if (personIds == null || personIds.isEmpty()) {
+        return Collections.emptyList();
+    }
+    return personDao.findPersonsByIds(personIds);
+}
+
     
 }

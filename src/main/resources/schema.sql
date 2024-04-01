@@ -32,3 +32,7 @@ INSERT INTO person (first_name, last_name, email_address, street_address, city, 
 VALUES ('John', 'Doe', 'john.doe@example.com', '123 Main St', 'Anytown', 'NY', '12345', 1),
        ('Jane', 'Doe', 'jane.doe@example.com', '456 Elm St', 'Anytown', 'NY', '12345', 1),
        ('Alice', 'Smith', 'alice.smith@example.com', '789 Oak St', 'Anytown', 'NY', '12345', 1);
+
+INSERT INTO client_person (client_id, person_id) VALUES (1, 1);
+INSERT INTO client_person (client_id, person_id) VALUES (1, 2);
+INSERT INTO client_person (client_id, person_id) VALUES (1, 3);

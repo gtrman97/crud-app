@@ -90,6 +90,15 @@ public class JdbcPersonDao implements PersonDao {
         return namedParameterJdbcTemplate.query(sql, new PersonWithClientRowMapper());
     }
 
+    @Override
+    public List<Person> findPersonsByIds(List<Integer> personIds) {
+    String sql = "SELECT * FROM person WHERE person_id IN (:personIds)";
+    Map<String, Object> params = new HashMap<>();
+    params.put("personIds", personIds);
+    return namedParameterJdbcTemplate.query(sql, params, new PersonRowMapper());
+}
+
+
     private static class PersonWithClientRowMapper implements RowMapper<Person> {
         @Override
         public Person mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -57,5 +57,7 @@ public interface PersonService {
     List<String> validatePerson(Person person);
 
     List<Integer> getContactsByClientId(Integer clientId);
+
+    List<Person> getPersonsByIds(List<Integer> personIds);
     
 }

@@ -25,6 +25,10 @@ public class Client {
     @Size(max = 10, message = "Contacts list should not exceed 10 elements")
     private List<Integer> contacts;
 
+    private List<Person> contactObjects;
+
+    private List<String> contactNames;
+
     // Getters and setters
 
     public Integer getClientId() {
@@ -74,4 +78,21 @@ public class Client {
     public void setContacts(List<Integer> contacts) {
         this.contacts = contacts;
     }
+
+    public List<Person> getContactObjects() {
+        return contactObjects;
+    }
+    
+    public void setContactObjects(List<Person> contactObjects) {
+        this.contactObjects = contactObjects;
+    }
+
+    public List<String> getContactNames() {
+        return contactNames;
+    }
+    
+    public void setContactNames(List<String> contactNames) {
+        this.contactNames = contactNames;
+    }
+    
 }

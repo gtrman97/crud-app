@@ -49,5 +49,6 @@ public interface PersonDao {
     void deletePerson(Integer id);
 
     List<Integer> findContactIdsByClientId(Integer clientId);
+    List<Person> findPersonsByIds(List<Integer> personIds);
 
 }

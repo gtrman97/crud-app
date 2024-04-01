@@ -14,7 +14,9 @@ import com.aquent.crudapp.person.Person;
 import com.aquent.crudapp.person.PersonService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -35,25 +37,28 @@ public class ClientController {
     public String listClients(Model model) {
     List<Client> clients = clientService.listClients();
     for (Client client : clients) {
-        List<Integer> contactIds = personService.getContactsByClientId(client.getClientId());
-        client.setContacts(contactIds);
+        List<Person> contacts = personService.getPersonsByIds(client.getContacts());
+        System.out.println("Contacts for client " + client.getClientId() + ": " + contacts);
+        client.setContactObjects(contacts);
     }
     model.addAttribute("clients", clients);
     return "clients/list";
 }
+
+
 
     @GetMapping("/new")
     public ModelAndView create() {
         ModelAndView mav = new ModelAndView("clients/create");
         mav.addObject("client", new Client());
         mav.addObject("errors", new ArrayList<String>());
-        mav.addObject("contacts", personService.listPeople()); 
+        mav.addObject("persons", personService.listPeople()); 
         return mav;
     }
 
     @PostMapping
     public ModelAndView create(Client client, @RequestParam List<Integer> contactIds) {
-        // client.setContacts(contacts);
+        client.setContacts(contactIds);
 
     // Validate and create the client
     List<String> errors = clientService.validateClient(client);

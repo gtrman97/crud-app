@@ -30,10 +30,15 @@ public class JdbcClientDao implements ClientDao {
     }
 
     @Override
-    public List<Client> listClients() {
-        String sql = "SELECT * FROM client ORDER BY company_name, client_id";
-        return namedParameterJdbcTemplate.query(sql, new ClientRowMapper());
-    }
+public List<Client> listClients() {
+    String sql = "SELECT c.*, p.person_id, p.first_name, p.last_name FROM client c " +
+                 "LEFT JOIN client_person cp ON c.client_id = cp.client_id " +
+                 "LEFT JOIN person p ON cp.person_id = p.person_id " +
+                 "ORDER BY c.company_name, c.client_id";
+
+    // Use a new RowMapper to handle the result set
+    return namedParameterJdbcTemplate.query(sql, new ClientWithContactsRowMapper());
+}
 
     @Override
     public Integer createClient(Client client, List<Integer> contactIds) {
@@ -120,15 +125,18 @@ public Client getClientWithContacts(Integer clientId) {
             client.setPhoneNumber(rs.getString("phone_number"));
             client.setAddress(rs.getString("address"));
     
-            List<Integer> contactIds = new ArrayList<>();
+            // Create a list to hold the contact names
+            List<String> contactNames = new ArrayList<>();
             do {
-                int personId = rs.getInt("person_id");
-                if (personId != 0) {
-                    contactIds.add(personId);
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
+                if (firstName != null && lastName != null) {
+                    contactNames.add(firstName + " " + lastName);
                 }
             } while (rs.next() && rs.getInt("client_id") == client.getClientId());
     
-            client.setContacts(contactIds);
+            // Set the contact names list to the client
+            client.setContactNames(contactNames);
     
             return client;
         }
