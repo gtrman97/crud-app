@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.aquent.crudapp.person.Person;
 
@@ -91,16 +92,22 @@ public Client getClientWithContacts(Integer clientId) {
         namedParameterJdbcTemplate.update(sql, new BeanPropertySqlParameterSource(client));
     }
 
+    @Transactional
     @Override
     public void deleteClient(Integer clientId) {
-        // Set client_id to NULL for all persons associated with the client
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("clientId", clientId);
-        namedParameterJdbcTemplate.update("UPDATE person SET client_id = NULL WHERE client_id = :clientId", params);
+    // First, remove associations from client_person table
+    String deleteAssociationsSql = "DELETE FROM client_person WHERE client_id = :clientId";
+    namedParameterJdbcTemplate.update(deleteAssociationsSql, new MapSqlParameterSource("clientId", clientId));
 
-        // Delete the client
-        namedParameterJdbcTemplate.update("DELETE FROM client WHERE client_id = :clientId", params);
-    }
+    // Set client_id to NULL for all persons associated with the client
+    String nullifyPersonClientSql = "UPDATE person SET client_id = NULL WHERE client_id = :clientId";
+    namedParameterJdbcTemplate.update(nullifyPersonClientSql, new MapSqlParameterSource("clientId", clientId));
+
+    // Then, delete the client
+    String deleteClientSql = "DELETE FROM client WHERE client_id = :clientId";
+    namedParameterJdbcTemplate.update(deleteClientSql, new MapSqlParameterSource("clientId", clientId));
+}
+
 
     @Override
     public List<Integer> getContactsByClientId(Integer clientId) {
