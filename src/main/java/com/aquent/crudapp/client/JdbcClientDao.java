@@ -37,9 +37,14 @@ public List<Client> listClients() {
                  "LEFT JOIN person p ON cp.person_id = p.person_id " +
                  "ORDER BY c.company_name, c.client_id";
 
-    // Use a new RowMapper to handle the result set
-    return namedParameterJdbcTemplate.query(sql, new ClientWithContactsRowMapper());
+    List<Client> clients = namedParameterJdbcTemplate.query(sql, new ClientWithContactsRowMapper());
+
+    // Log the list of clients to verify
+    System.out.println("Fetched clients: " + clients);
+
+    return clients;
 }
+
 
     @Override
     public Integer createClient(Client client, List<Integer> contactIds) {
