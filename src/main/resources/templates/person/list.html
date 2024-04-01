@@ -32,8 +32,8 @@
   </head>
   <body>
     <h1 class="centered heading">Person Listing</h1>
-    <p class="centered create heading">
-      <a href="/person/create">Create New Person</a>
+    <p class="centered">
+      <a href="/person/create" class="btn btn-success">Create New Person</a>
     </p>
     <th:block th:unless="${#lists.isEmpty(persons)}">
       <table class="table blue-border">

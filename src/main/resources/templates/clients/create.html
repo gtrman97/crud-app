@@ -1,41 +1,60 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-  <head>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Create Client</title>
-  </head>
-  <body>
-    <h1>Create Client</h1>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .centered {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .submit-btn {
+            display: block;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="centered">Create Client</h1>
     <th:block th:unless="${#lists.isEmpty(errors)}">
-      <p>Please correct the following errors in your submission:</p>
-      <ul>
-        <th:block th:each="error : ${errors}">
-          <li th:text="${error}">Error message</li>
-        </th:block>
-      </ul>
+        <div class="alert alert-danger">
+            <p>Please correct the following errors in your submission:</p>
+            <ul>
+                <th:block th:each="error : ${errors}">
+                    <li th:text="${error}">Error message</li>
+                </th:block>
+            </ul>
+        </div>
     </th:block>
-    <form action="/clients" method="POST">
-      <br/>
-      <label for="companyName">Company Name:</label>
-      <input type="text" name="companyName" th:value="${client.companyName}"/>
-      <br/>
-      <label for="websiteUri">Website URI:</label>
-      <input type="text" name="websiteUri" th:value="${client.websiteUri}"/>
-      <br/>
-      <label for="phoneNumber">Phone Number:</label>
-      <input type="text" name="phoneNumber" th:value="${client.phoneNumber}"/>
-      <br/>
-      <label for="address">Address:</label>
-      <input type="text" name="address" th:value="${client.address}"/>
-      <br>
-      <label for="contacts">Contacts:</label>
-      <select multiple name="contactIds" id="contacts">
-        <option th:each="person : ${persons}" th:value="${person.personId}" th:text="${person.firstName} + ' ' + ${person.lastName}"></option>
-      </select>
-      <br/>
-      <input type="submit" name="Submit" value="Submit"/>
-    </form>
-  </body>
+    <div class="container">
+        <form action="/clients" method="POST">
+            <div class="form-group">
+                <label for="companyName">Company Name:</label>
+                <input type="text" class="form-control" name="companyName" th:value="${client.companyName}"/>
+            </div>
+            <div class="form-group">
+                <label for="websiteUri">Website URI:</label>
+                <input type="text" class="form-control" name="websiteUri" th:value="${client.websiteUri}"/>
+            </div>
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="text" class="form-control" name="phoneNumber" th:value="${client.phoneNumber}"/>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" class="form-control" name="address" th:value="${client.address}"/>
+            </div>
+            <div class="form-group">
+                <label for="contacts">Contacts:</label>
+                <select multiple class="form-control" name="contactIds" id="contacts">
+                    <option th:each="person : ${persons}" th:value="${person.personId}" th:text="${person.firstName} + ' ' + ${person.lastName}"></option>
+                </select>
+            </div>
+            <input type="submit" class="btn btn-success submit-btn" name="Submit" value="Submit"/>
+        </form>
+    </div>
+</body>
 </html>
