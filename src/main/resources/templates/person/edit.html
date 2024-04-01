@@ -5,48 +5,64 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Edit Person</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   </head>
   <body>
-    <h1>Edit Person</h1>
-    <th:block th:unless="${#lists.isEmpty(errors)}">
-      <p>Please correct the following errors in your submission:</p>
-      <ul>
-        <th:block th:each="error : ${errors}">
-          <li>${error}</li>
+    <div class="container">
+        <h1 class="mt-4">Edit Person</h1>
+        <th:block th:unless="${#lists.isEmpty(errors)}">
+            <div class="alert alert-danger">
+                <p>Please correct the following errors in your submission:</p>
+                <ul>
+                    <th:block th:each="error : ${errors}">
+                        <li th:text="${error}"></li>
+                    </th:block>
+                </ul>
+            </div>
         </th:block>
-      </ul>
-    </th:block>
-    <form action="/person/edit" method="POST">
-      <input type="hidden" name="personId" th:value="${person.personId}"/>
-      <br/>
-      <label for="firstName">First Name:</label>
-      <input type="text" name="firstName" th:value="${person.firstName}"/>
-      <br/>
-      <label for="lastName">Last Name:</label>
-      <input type="text" name="lastName" th:value="${person.lastName}"/>
-      <br/>
-      <label for="emailAddress">Email Address:</label>
-      <input type="text" name="emailAddress" th:value="${person.emailAddress}"/>
-      <br/>
-      <label for="streetAddress">Street Address:</label>
-      <input type="text" name="streetAddress" th:value="${person.streetAddress}"/>
-      <br/>
-      <label for="city">City:</label>
-      <input type="text" name="city" th:value="${person.city}"/>
-      <br/>
-      <label for="state">State:</label>
-      <input type="text" name="state" th:value="${person.state}"/>
-      <br/>
-      <label for="zipCode">Zip Code:</label>
-      <input type="text" name="zipCode" th:value="${person.zipCode}"/>
-      <br/>
-      <input type="submit" name="Submit" value="Submit"/>
-      <!-- Add a dropdown list for selecting the associated client -->
-      <label for="clientId">Associated Client:</label>
-      <select name="clientId" id="clientId">
-          <option value="">--Select a Client--</option>
-          <option th:each="client : ${clients}" th:value="${client.clientId}" th:text="${client.companyName}" th:selected="${client.clientId == person.clientId}"></option>
-      </select>
-    </form>
-  </body>
+        <form action="/person/edit" method="POST" class="mt-3">
+            <input type="hidden" name="personId" th:value="${person.personId}"/>
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" class="form-control" name="firstName" th:value="${person.firstName}"/>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" class="form-control" name="lastName" th:value="${person.lastName}"/>
+            </div>
+            <div class="form-group">
+                <label for="emailAddress">Email Address:</label>
+                <input type="text" class="form-control" name="emailAddress" th:value="${person.emailAddress}"/>
+            </div>
+            <div class="form-group">
+                <label for="streetAddress">Street Address:</label>
+                <input type="text" class="form-control" name="streetAddress" th:value="${person.streetAddress}"/>
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" class="form-control" name="city" th:value="${person.city}"/>
+            </div>
+            <div class="form-group">
+                <label for="state">State:</label>
+                <input type="text" class="form-control" name="state" th:value="${person.state}"/>
+            </div>
+            <div class="form-group">
+                <label for="zipCode">Zip Code:</label>
+                <input type="text" class="form-control" name="zipCode" th:value="${person.zipCode}"/>
+            </div>
+            <div class="form-group">
+                <label for="clientId">Associated Client:</label>
+                <select name="clientId" id="clientId" class="form-control">
+                    <option value="">--Select a Client--</option>
+                    <option th:each="client : ${clients}" th:value="${client.clientId}" th:text="${client.companyName}" th:selected="${client.clientId == person.clientId}"></option>
+                </select>
+            </div>
+            <div class="form-group text-center">
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+          
+        </form>
+    </div>
+</body>
+
 </html>

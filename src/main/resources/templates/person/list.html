@@ -1,42 +1,107 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Person Listing</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <style>
+      .heading {
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Adds shadow to the text */
+        transform: translateZ(10px); /* Adds a 3D effect */
+      }
+      .blue-border {
+        border-color: blue !important;
+        border-style: solid;
+        border-width: 5px;
+      }
+      .light-blue-border {
+        border: 2px solid rgb(0, 183, 255);
+      }
+      .centered {
+        text-align: center;
+      }
+      .create a {
+        color: green;
+      }
+    </style>
   </head>
   <body>
-    <h1>Person Listing</h1>
-    <p><a href="/person/create">Create New Person</a></p>
+    <h1 class="centered heading">Person Listing</h1>
+    <p class="centered create heading">
+      <a href="/person/create">Create New Person</a>
+    </p>
     <th:block th:unless="${#lists.isEmpty(persons)}">
-      <table>
+      <table class="table blue-border">
         <thead>
           <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email Address</th>
-            <th>Associated Client</th> 
-            <th>Actions</th>
-            <th>Person Id</th>
+            <th class="centered">First Name</th>
+            <th class="centered">Last Name</th>
+            <th class="centered">Email Address</th>
+            <th class="centered">Associated Client</th>
+            <th class="centered">Actions</th>
+            <th class="centered">Person Id</th>
           </tr>
         </thead>
         <tbody>
           <th:block th:each="person : ${persons}">
             <tr>
-              <td th:text="${person.firstName}">First</td>
-              <td th:text="${person.lastName}">Last</td>
-              <td th:text="${person.emailAddress}">first.last@email.com</td>
-              <td th:text="${person.client?.companyName}">N/A</td>
-              <td>
-                <a th:href="@{/person/edit/{personId}(personId=${person.personId})}">Edit Person</a>
-                <form th:action="@{/person/delete}" method="post">
-                  <input type="hidden" name="personId" th:value="${person.personId}" />
-                  <input type="hidden" name="command" value="Delete" />
-                  <input type="submit" value="Delete Person" />
-              </form>                          
+              <td
+                class="centered light-blue-border"
+                th:text="${person.firstName}"
+              >
+                First
               </td>
-              <td th:text="${person.personId}">Debug Person ID</td>
+              <td
+                class="centered light-blue-border"
+                th:text="${person.lastName}"
+              >
+                Last
+              </td>
+              <td
+                class="centered light-blue-border"
+                th:text="${person.emailAddress}"
+              >
+                first.last@email.com
+              </td>
+              <td
+                class="centered light-blue-border"
+                th:text="${person.client?.companyName}"
+              >
+                N/A
+              </td>
+              <td class="centered light-blue-border">
+                <a
+                  th:href="@{/person/edit/{personId}(personId=${person.personId})}"
+                  class="btn btn-primary mr-2"
+                  >Edit Person</a
+                >
+                <form
+                  th:action="@{/person/delete}"
+                  method="post"
+                  class="d-inline"
+                >
+                  <input
+                    type="hidden"
+                    name="personId"
+                    th:value="${person.personId}"
+                  />
+                  <input type="hidden" name="command" value="Delete" />
+                  <button type="submit" class="btn btn-danger">
+                    Delete Person
+                  </button>
+                </form>
+              </td>
+              <td
+                class="centered light-blue-border"
+                th:text="${person.personId}"
+              >
+                Debug Person ID
+              </td>
             </tr>
           </th:block>
         </tbody>
@@ -45,6 +110,6 @@
     <th:block th:if="${#lists.isEmpty(persons)}">
       <p>No results found.</p>
     </th:block>
-    <h1><a href="/clients">View Clients</a></h1>
+    <h1 class="centered heading"><a href="/clients">View Clients</a></h1>
   </body>
 </html>
