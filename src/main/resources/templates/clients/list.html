@@ -57,8 +57,8 @@
                             </select>
                         </td>
                         <td class="centered light-blue-border">
-                            <a th:href="'/clients/edit/' + ${client.clientId}" class="btn btn-primary mr-2">Edit Client</a>
-                            <a th:href="'/clients/delete/' + ${client.clientId}" class="btn btn-danger">Delete Client</a>
+                            <a th:href="@{/clients/edit/{clientId}(clientId=${client.clientId})}" class="btn btn-primary mr-2">Edit Client</a>
+                            <a th:href="@{/clients/delete/{clientId}(clientId=${client.clientId})}" class="btn btn-danger">Delete Client</a>
                         </td>
                     </tr>
                 </th:block>
