@@ -117,6 +117,23 @@ public Client getClientWithContacts(Integer clientId) {
     return namedParameterJdbcTemplate.queryForList(sql, params, Integer.class);
 }
 
+@Override
+public void updateAssociatedContacts(Integer clientId, List<Integer> contactIds) {
+    // Delete existing associations
+    String deleteSql = "DELETE FROM client_person WHERE client_id = :clientId";
+    namedParameterJdbcTemplate.update(deleteSql, new MapSqlParameterSource("clientId", clientId));
+
+    // Insert new associations
+    String insertSql = "INSERT INTO client_person (client_id, person_id) VALUES (:clientId, :personId)";
+    for (Integer contactId : contactIds) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("clientId", clientId);
+        params.addValue("personId", contactId);
+        namedParameterJdbcTemplate.update(insertSql, params);
+    }
+}
+
+
 
     private static final class ClientRowMapper implements RowMapper<Client> {
         @Override

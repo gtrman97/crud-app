@@ -15,8 +15,8 @@ CREATE TABLE person (
     city varchar(50) NOT NULL,
     state varchar(2) NOT NULL,
     zip_code varchar(5) NOT NULL,
-    client_id integer,  -- to establish a relationship with the Client table
-    FOREIGN KEY (client_id) REFERENCES client(client_id)  -- to define the foreign key constraint
+    client_id integer, 
+    FOREIGN KEY (client_id) REFERENCES client(client_id)
 );
 
 CREATE TABLE client_person (

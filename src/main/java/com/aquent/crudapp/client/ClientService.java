@@ -13,7 +13,7 @@ public interface ClientService {
 
     Client getClient(Integer clientId);
 
-    Client updateClient(Client client);
+    void updateClient(Client client, List<Integer> contactIds);
 
     void deleteClient(Integer clientId);
     

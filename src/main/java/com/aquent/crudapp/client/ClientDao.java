@@ -16,4 +16,6 @@ public interface ClientDao {
 
     List<Integer> getContactsByClientId(Integer clientId);
 
+    void updateAssociatedContacts(Integer clientId, List<Integer> contactIds);
+
 }

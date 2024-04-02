@@ -43,9 +43,9 @@ public class DefaultClientService implements ClientService {
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = false)
-    public Client updateClient(Client client) {
+    public void updateClient(Client client, List<Integer> contactIds) {
         clientDao.updateClient(client);
-        return clientDao.readClient(client.getClientId());
+        clientDao.updateAssociatedContacts(client.getClientId(), contactIds);
     }
 
     @Override

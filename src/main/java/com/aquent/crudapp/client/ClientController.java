@@ -81,19 +81,22 @@ public ModelAndView edit(@PathVariable Integer clientId) {
     return mav;
 }
 
-    @PostMapping("/edit")
-    public ModelAndView edit(Client client) {
-        List<String> errors = clientService.validateClient(client);
-        if (errors.isEmpty()) {
-            clientService.updateClient(client);
-            return new ModelAndView("redirect:/clients");
-        } else {
-            ModelAndView mav = new ModelAndView("clients/edit");
-            mav.addObject("client", client);
-            mav.addObject("errors", errors);
-            return mav;
-        }
+@PostMapping("/edit")
+public ModelAndView edit(Client client, @RequestParam List<Integer> contactIds) {
+    // Validate and update the client
+    List<String> errors = clientService.validateClient(client);
+    if (errors.isEmpty()) {
+        clientService.updateClient(client, contactIds);
+        return new ModelAndView("redirect:/clients");
+    } else {
+        ModelAndView mav = new ModelAndView("clients/edit");
+        mav.addObject("client", client);
+        mav.addObject("errors", errors);
+        return mav;
     }
+}
+
+
 
     @GetMapping("/delete/{clientId}")
     public ModelAndView delete(@PathVariable Integer clientId) {
