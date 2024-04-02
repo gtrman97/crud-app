@@ -14,10 +14,7 @@ import com.aquent.crudapp.person.Person;
 import com.aquent.crudapp.person.PersonService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/clients")
@@ -36,13 +33,10 @@ public class ClientController {
     @GetMapping
     public String listClients(Model model) {
     List<Client> clients = clientService.listClients();
-    System.out.println("Fetched clients: " + clients);
     for (Client client : clients) {
         List<Person> contacts = personService.getPersonsByIds(client.getContacts());
-        System.out.println("Contacts for client " + client.getClientId() + ": " + contacts);
         client.setContactObjects(contacts);
     }
-    System.out.println("Clients after setting contacts: " + clients);
     model.addAttribute("clients", clients);
     return "clients/list";
 }

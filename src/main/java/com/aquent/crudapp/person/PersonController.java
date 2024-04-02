@@ -3,12 +3,9 @@ package com.aquent.crudapp.person;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.aquent.crudapp.client.Client;
 import com.aquent.crudapp.client.ClientService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,8 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/person")
 public class PersonController {
-
-    private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
 
     public static final String COMMAND_DELETE = "Delete";
 

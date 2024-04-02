@@ -10,7 +10,6 @@ import java.util.Map;
 import com.aquent.crudapp.client.Client;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -33,11 +32,9 @@ public class JdbcPersonDao implements PersonDao {
                                                   + " VALUES (:firstName, :lastName, :emailAddress, :streetAddress, :city, :state, :zipCode, :clientId)";
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public JdbcPersonDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate, NamedParameterJdbcTemplate jdbcTemplate) {
+    public JdbcPersonDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
@@ -49,10 +46,9 @@ public class JdbcPersonDao implements PersonDao {
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Person readPerson(Integer personId) {
-    String sql = "SELECT * FROM person WHERE person_id = :personId";
     Map<String, Object> params = new HashMap<>();
     params.put("personId", personId);
-    return namedParameterJdbcTemplate.queryForObject(sql, params, new PersonRowMapper());
+    return namedParameterJdbcTemplate.queryForObject(SQL_READ_PERSON, params, new PersonRowMapper());
 }
 
 @Override
@@ -63,8 +59,7 @@ public void deletePerson(Integer personId) {
     namedParameterJdbcTemplate.update(deleteAssociationSql, Collections.singletonMap("personId", personId));
 
     // Delete the person from the person table
-    String deletePersonSql = "DELETE FROM person WHERE person_id = :personId";
-    namedParameterJdbcTemplate.update(deletePersonSql, Collections.singletonMap("personId", personId));
+    namedParameterJdbcTemplate.update(SQL_DELETE_PERSON, Collections.singletonMap("personId", personId));
 }
 
     @Override

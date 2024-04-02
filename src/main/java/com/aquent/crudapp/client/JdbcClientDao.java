@@ -16,8 +16,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.aquent.crudapp.person.Person;
-
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
 
@@ -38,9 +36,6 @@ public List<Client> listClients() {
                  "ORDER BY c.company_name, c.client_id";
 
     List<Client> clients = namedParameterJdbcTemplate.query(sql, new ClientWithContactsRowMapper());
-
-    // Log the list of clients to verify
-    System.out.println("Fetched clients: " + clients);
 
     return clients;
 }

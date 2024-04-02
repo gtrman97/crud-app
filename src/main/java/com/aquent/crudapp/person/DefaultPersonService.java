@@ -80,14 +80,12 @@ public class DefaultPersonService implements PersonService {
 
     @Override
     public List<Person> getPersonsByIds(List<Integer> personIds) {
-    System.out.println("Person IDs: " + personIds);
 
     if (personIds == null || personIds.isEmpty()) {
         return Collections.emptyList();
     }
 
     List<Person> persons = personDao.findPersonsByIds(personIds);
-    System.out.println("Retrieved persons: " + persons);
 
     return persons;
 }
